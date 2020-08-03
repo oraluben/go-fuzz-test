@@ -5,3 +5,6 @@ deps:
 
 build: deps
 	cd fuzz && go-fuzz-build
+
+ast-demo:
+	go run ast/main.go
