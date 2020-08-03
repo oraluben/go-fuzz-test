@@ -1,12 +1,9 @@
 package fuzz
 
-import "fuzz-test/pkg/pkg1"
+//go:noescape
+func test() {}
 
 func Fuzz(input []byte) int {
-	if len(input) > 0 {
-		if pkg1.Test(int(input[0])) == nil {
-			return 1
-		}
-	}
+	test()
 	return 0
 }
