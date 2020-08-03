@@ -7,13 +7,23 @@ import (
 	"go/parser"
 	"go/printer"
 	"go/token"
+	"io/ioutil"
 	"log"
+	"os"
 )
+
+var src = "package main\n" +
+	"//go:nosplit\n" +
+	"func foo() {}"
 
 func test(fix bool) string {
 	// parse file
 	fset := token.NewFileSet()
-	node, err := parser.ParseFile(fset, "ast/test.go", nil, parser.ParseComments)
+	f, _ := ioutil.TempFile("", "")
+	f.WriteString(src)
+	f.Close()
+	defer os.Remove(f.Name())
+	node, err := parser.ParseFile(fset, f.Name(), nil, parser.ParseComments)
 	if err != nil {
 		log.Fatal(err)
 	}
